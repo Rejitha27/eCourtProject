@@ -1,70 +1,49 @@
-@extends('Layouts.admin_profile_theme')
+@extends('layouts.admin_profile_theme')
 @section('content')
 
-<!--admin Section Starts-->
+@include('admin.adminsidebar')
 
-@foreach($activeCases as $active)
-<div class="row"  style="padding-top: 2%; padding-bottom: 2%; border-style: solid; margin-top: 5%; margin-left: 1%; margin-right: 1%;">
+ <h3 style="color:black; padding-left:16%; text-decoration:underline; padding: left 60%;">Active cases</h3>
+ <div class="float-right">
 
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">Case Number</h5>
-            <p class="mb-4 px-4"> {{ $active->case_number}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">Case Type</h5>
-            <p class="mb-4 px-4"> {{ $active->case_type}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">Client Name</h5>
-            <p class="mb-4 px-4"> {{ $active->client_name}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">Lawyer Name</h5>
-            <p class="mb-4 px-4"> {{ $active->lawyer_name}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">status</h5>
+<a class="btn btn-danger" href="{{route('closedcases')}}">
+                            Closed Cases</a>
 
-            <p class="mb-4 px-4"> active</p>
-        </div>
+</div>
+ <div class="container">
 
+  <div class="card-body text-center" >
 
-
-    </div>
-    @endforeach
-
-
-@foreach($closedCases as $closed)
-<div class="row"  style="padding-top: 2%; padding-bottom: 2%; border-style: solid; margin-top: 5%; margin-left: 1%; margin-right: 1%;">
-
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">Case Number</h5>
-            <p class="mb-4 px-4"> {{ $closed->case_number}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">Case Type</h5>
-            <p class="mb-4 px-4"> {{ $closed->case_type}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">Client Name</h5>
-            <p class="mb-4 px-4"> {{ $closed->client_name}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">Lawyer Name</h5>
-            <p class="mb-4 px-4"> {{ $closed->lawyer_name}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">status</h5>
-
-            <p class="mb-4 px-4"> closed</p>
-        </div>
-
-
-
-    </div>
-    @endforeach
-
-
-
-<!--admin Section Ends-->
+                <table id="example2" class="table table-bordered table-hover" style="margin:12%;">
+                  <!-- foreach loop -->
+                  <thead>
+                  <tr>
+                    <th>Sl No</th>
+                    <th>Case Number</th>
+                    <th>Case Type</th>
+                    <th>Filing Date</th>
+                    <th>Client Name</th>
+                    <th>Lawyer Name</th>
+                    <th>View Document</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  @foreach($activeCases as $active)
+                  <tr>
+                    <td>{{$loop->iteration}}</td>
+                    <td>{{ $active->case_number}}</td>
+                    <td>{{ $active->case_type}}</td>
+                    <td>{{ $active->filing_date}}</td>
+                    <td>{{ $active->client_name}}</td>
+                    <td>{{ $active->lawyer_name}}</td>
+                    <td><button type="button" class="btn btn-warning" style="margin:5%;">View</button></td>
+                  </tr>
+                  @endforeach
+                  <!-- endforeach -->
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+  </div>
+            <!-- /.card -->
 @endsection

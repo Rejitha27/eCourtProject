@@ -13,10 +13,7 @@ class ScheduleController extends Controller
     {
 
         CaseSchedule::create([
-            'client_id' => 1,
-            'case_number'=>$request->casenumber,
-            'client_name'=>$request->clientname,
-            'lawyer_name'=>$request->lawyername,
+
             'judge' => $request->judge,
             'hearing_date' => $request->hearingdate,
             'hearing_time' => $request->hearingtime,
@@ -25,7 +22,7 @@ class ScheduleController extends Controller
 
         ]);
 
-        return redirect(route('Schedule'));
+        return redirect(route('caseschedule'));
 
         }
 
@@ -33,9 +30,7 @@ class ScheduleController extends Controller
          $schedule_id=decrypt($scheduleid);
 
          CaseSchedule::find($schedule_id)->update([
-             'case_number'=>$request->casenumber,
-             'client_name'=>$request->clientname,
-             'lawyer_name'=>$request->lawyername,
+
              'judge' => $request->judge,
              'hearing_date' => $request->hearingdate,
              'hearing_time' => $request->hearingtime,
@@ -43,45 +38,26 @@ class ScheduleController extends Controller
              'reschedule_hearing_time' => $request->newhearingtime
         ]);
 
-        return redirect(route('Schedule'));
+        return redirect(route('caseschedule'));
 
         }
 
-        public function crimescheduleform()
-   {
-        $case_type = "Criminal";
-        $cases=Cases::where('case_type',$case_type)->first();
-
-        return view('Admin.crimescheduleform',compact('cases'));
-   }
-
-   public function civilscheduleform()
-   {
-    $case_type = "Civil";
-        $cases=Cases::where('case_type',$case_type)->first();
-    return view('Admin.civilscheduleform',compact('cases'));
-   }
-   public function familyscheduleform()
-   {
-    $case_type = "Family";
-        $cases=Cases::where('case_type',$case_type)->first();
-    return view('Admin.familyscheduleform',compact('cases'));
-   }
 
 
 
-  public function downloadDocument( $documentname){
-            $document=decrypt($documentname);
 
-                $filepath = storage_path("app/public/ecourt/$document");
+//   public function downloadDocument( $documentname){
+//             $document=decrypt($documentname);
 
-                if(file_exists($filepath)){
-                    return response()->download($filepath);
-                }
+//                 $filepath = storage_path("app/public/ecourt/$document");
 
-                abort(404);
+//                 if(file_exists($filepath)){
+//                     return response()->download($filepath);
+//                 }
 
-           }
+//                 abort(404);
+
+//            }
 
         //
 

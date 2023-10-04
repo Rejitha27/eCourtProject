@@ -1,40 +1,51 @@
 @extends('layouts.lawyer_profile_theme')
 @section('content')
 
-<!--Lawyer Section Starts-->
-@foreach ($cases as $case)
-<div class="row"  style="padding-top: 2%; padding-bottom: 2%; border-style: solid; margin-top: 5%; margin-left: 1%; margin-right: 1%;">
-        <div class="col-lg-2" style="display: inline-block;">
-            <label>CaseFilingDate</label>
-            <h5 class="mb-4 px-4">{{\Carbon\Carbon::parse($case->filing_date)->format('d/m/Y')}}
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <label>CaseNumber</label>
-            <h5 class="mb-2 px-4">{{$case->case_number}}</h5>
-        </div>
-        <div class="col-lg-2" style="display: inline-block; ">
-            <label>CaseType</label>
-            <h5 class="mb-4 px-4">{{$case->case_type}}</h5>
-        </div>
-        <div class="col-lg-2" style="display: inline-block; ">
-            <label>ClientName</label>
-            <h5 class="mb-4 px-4">{{$case->client_name}}</h5>
-            <h5 class="mb-4 px-4">{{$case->client->address}}</h5>
-            <h5 class="mb-4 px-4">{{$case->lawyer->bar_number}}</h5>
-        </div>
-        <div class="col-lg-2" style="display: inline-block; padding-left: 2%;padding-top: 2%;">
-            <form action="{{route('upload.case.report')}}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <input type="hidden" name="id" value="{{encrypt($case->id)}}"/>
-                <input type="hidden" name="case_status" value="{{$case->case_status}}"/>
-                <input type="file" name="case_report">
-                <button type="submit" class="btn btn-success ">Upload Report</button>
-            </form>
-        </div>
-        <div class="col-lg-2" style="display: inline-block; padding-left: 2%;padding-top: 2%;">
-            <a href="{{route('view.uploaded.reports',encrypt($case->id))}}" method="get"  class="btn btn-info mt-2">View Report</a>
-        </div>
+<h4 style="color:black; padding-left:18%; text-decoration:underline; padding-top: 1%">Lawyer Dashboard</h4>
+
+<h5 style="color:rgb(36, 107, 201); padding-left:16%; text-decoration:underline; padding-top: 1%">Active Cases</h5>
+
+<div class="container">
+    <div class="card-body text-center" >
+
+        <table id="example2" class="table table-bordered table-hover" >
+            <!-- foreach loop -->
+            <thead>
+                <tr>
+                <th>Case Number</th>
+                <th>Case Type</th>
+                <th>Filing Date</th>
+                <th>Client Name</th>
+                <th>Case Description</th>
+                <th>Upload Report</th>
+                <th>View Report</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($cases as $case)
+                <tr>
+                <td>{{$case->case_number}}</td>
+                <td>{{$case->case_type}}</td>
+                <td>{{\Carbon\Carbon::parse($case->filing_date)->format('d/m/Y')}}</td>
+                <td>{{$case->client_name}}</td>
+                <td>{{$case->case_description}}</td>
+                <td>
+                    <form action="{{route('upload.case.report')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="id" value="{{encrypt($case->id)}}"/>
+                        <input type="hidden" name="case_status" value="{{$case->case_status}}"/>
+                        <input type="file" name="case_report">
+                        <button type="submit" class="btn btn-success ">Upload Report</button>
+                    </form>
+                    {{-- <a href="" class="btn btn-info" style="margin:5%;">Upload</a> --}}
+                </td>
+                <td><a href="{{route('view.uploaded.reports',encrypt($case->id))}}" class="btn btn-warning" style="margin:5%;">View</a></td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-@endforeach
-<!--Lawyer Section Ends-->
+</div>
+
+@include('lawyer.lawyersidebar')
 @endsection

@@ -98,6 +98,7 @@ return [
             'model' => App\Models\ThirdParty::class,
         ]
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords

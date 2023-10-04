@@ -1,28 +1,45 @@
 @extends('layouts.lawyer_profile_theme')
 @section('content')
 
-<!--Lawyer Section Starts-->
-@foreach ($requests as $request)
+<h4 style="color:black; padding-left:18%; text-decoration:underline; padding-top: 1%">Lawyer Dashboard</h4>
 
-<div class="row"  style="padding-top: 2%; padding-bottom: 2%; border-style: solid; margin-top: 5%; margin-left: 1%; margin-right: 1%;">
-    <div class="col-lg-2" style="display: inline-block; padding-left: 2%;">
-        <label>CaseType</label>
-        <h5 class="mb-4 px-4"> {{$request->case_type}} Case</h5>
-    </div>
-    <div class="col-lg-5" style="display: inline-block; border-style: ridge;">
-        <label>CaseDescription</label>
-        <h5 class="mb-4 px-4"> {{$request->case_description}}</h5>
-    </div>
-    <div class="col-lg-1" style="display: inline-block; padding-left: 2%;">
-        <a href="{{route('view.case.documents',encrypt($request->id))}}" method="get"  class="btn btn-info mt-2">Documents</a>
-    </div>
-    <div class="col-lg-1" style="display: inline-block; padding-left: 5%;">
-        <a href="{{route('accept.case.request',encrypt($request->id))}}" class="btn btn-success mt-2">Accept</a>
-    </div>
-    <div class="col-lg-1" style="display: inline-block; padding-left: 5%;">
-        <a href="{{route('reject.case.request',encrypt($request->id))}}" class="btn btn-danger mt-2">Reject</a>
+<h5 style="color:rgb(93, 15, 87); padding-left:16%; text-decoration:underline; padding-top: 1%">Case Requests</h5>
+ <div class="container">
+    <div class="card-body text-center" >
+
+        <table id="example2" class="table table-bordered table-hover" style="margin:2%;">
+            <!-- foreach loop -->
+            <thead>
+            <tr>
+            <th>Sl No</th>
+            <th>Filing Date</th>
+            <th>Case Type</th>
+            <th>Client Name</th>
+            <th>Case Description</th>
+            <th>Document</th>
+            <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach ($requests as $request)
+            <tr>
+                <td scope="row">1</td>
+                <td>{{\Carbon\Carbon::parse($request->filling_date)->format('d/m/Y')}}</td>
+                <td>{{$request->case_type}}</td>
+                <td>{{$request->petitioner_name}}</td>
+                <td>{{$request->case_description}}</td>
+                <td><a href="{{route('view.case.documents',encrypt($request->id))}}" class="btn btn-info" >Document</a></td>
+                <td><a href="{{route('accept.case.request',encrypt($request->id))}}" class="btn btn-success" >Accept</a>
+                    <a href="{{route('reject.case.request',encrypt($request->id))}}" class="btn btn-warning" >Reject</a>
+                    <a href="" class="btn btn-outline-primary" >Hold</a>
+                </td>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
     </div>
 </div>
-@endforeach
 
+
+@include('lawyer.lawyersidebar')
 @endsection

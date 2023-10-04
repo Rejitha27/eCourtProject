@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\CaseSchedule;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cases extends Model
 {
@@ -18,6 +19,11 @@ class Cases extends Model
     public function lawyer()
     {
         return $this->belongsTo(Lawyer::class);
+    }
+
+    public function scheduleCases()
+    {
+        return $this->hasOne(CaseSchedule::class,'case_id','id');
     }
 
 }

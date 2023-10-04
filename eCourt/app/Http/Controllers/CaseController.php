@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cases;
 use App\Models\CaseReport;
 use App\Models\CaseRequest;
-use App\Models\Cases;
 use Illuminate\Http\Request;
+use App\Models\ClosingRequest;
 
 class CaseController extends Controller
 {
@@ -34,8 +35,9 @@ class CaseController extends Controller
         $case->case_document = $case_request->case_document;
         $case->save();
 
-        $case_request = CaseRequest::find($request_id)->update([
-            'request_status' => false,
+        CaseRequest::find($request_id)->update([
+            'request_status' => true,
+            'active_status' => true
         ]);
 
         return redirect(route('lawyer.dashboard'));
@@ -45,9 +47,30 @@ class CaseController extends Controller
     public function rejectCaseRequest($requestId)
     {
         $request_id = decrypt($requestId);
-        $case_request = CaseRequest::find($request_id)->delete();
+        $case_request = CaseRequest::find($request_id)->update([
+            'request_status' => false,
+            'active_status' => true
+        ]);
+
         return redirect(route('lawyer.dashboard'));
     }
+
+    public function closeCase($requestId)
+    {
+        $request_id = decrypt($requestId);
+        $close_request = ClosingRequest::find($request_id)->update([
+            'request_status'=>true
+        ]);
+        return redirect(route('lawyer.dashboard'));
+    }
+
+    public function viewCaseDocument($requestId)
+    {
+        $request_id = decrypt($requestId);
+        $case_documents = CaseRequest::where('id',$request_id)->get();
+        return view('lawyer.view_case_documents',compact('case_documents'));
+    }
+
 
     public function uploadCaseReport(Request $request)
     {
@@ -72,7 +95,6 @@ class CaseController extends Controller
         $case_document->save();
 
         return redirect(route('lawyer.dashboard'));
-
     }
 
     public function viewCaseReport($caseId)
@@ -80,27 +102,6 @@ class CaseController extends Controller
         $case_id = decrypt($caseId);
         $case_reports = CaseReport::where('case_id',$case_id)->get();
         return view('lawyer.view_case_reports',compact('case_reports'));
-
-    }
-
-    public function downloadCaseReport($caseReport)
-    {
-        $casse_report = decrypt($caseReport);
-        $filePath = storage_path("app/public/ecourt/$casse_report");
-
-        if (file_exists($filePath)) {
-            return response()->download($filePath);
-        }
-
-        // File not found, handle the error accordingly
-        abort(404);
-    }
-
-    public function viewCaseDocument($requestId)
-    {
-        $request_id = decrypt($requestId);
-        $case_documents = CaseRequest::where('id',$request_id)->get();
-        return view('lawyer.view_case_documents',compact('case_documents'));
     }
 
     public function downloadCaseDocument($caseDocument)
@@ -115,4 +116,33 @@ class CaseController extends Controller
         // File not found, handle the error accordingly
         abort(404);
     }
+
+    public function iframeView($caseDocument)
+    {
+        $case_document = decrypt($caseDocument);
+        return view('lawyer.view_docs',compact('case_document'));
+
+    }
+
+    public function downloadCaseReport($caseReport)
+    {
+        $casse_report = decrypt($caseReport);
+        $filePath = storage_path("app/public/ecourt/$casse_report");
+
+        if (file_exists($filePath)) {
+            return response()->download($filePath);
+        }
+        // File not found, handle the error accordingly
+        abort(404);
+    }
+
+    public function closingCaseReport($caseNumber)
+    {
+        $case_number = decrypt($caseNumber);
+        $case = Cases::where('case_number',$case_number)->first();
+        $case_id = $case->id;
+        $case_reports = CaseReport::where('case_id',$case_id)->get();
+        return view('lawyer.view_case_reports',compact('case_reports'));
+    }
+
 }

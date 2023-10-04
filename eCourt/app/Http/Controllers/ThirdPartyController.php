@@ -13,17 +13,14 @@ class ThirdPartyController extends Controller
 
     public function dashboard()
     {
-        return view('thirdparty.thirdparty');
+        return view('thirdparty.thirdpartyprofile');
     }
-
 
     public function search(Request $request)
     {
         $selectedCaseType = $request->case_type;
         $casenumbers = Cases::where('case_type',$selectedCaseType)->pluck('case_number');
-        return view('thirdparty.thirdpartysearchcasenumber',['casenumbers' => $casenumbers]);
-
-
+        return view('thirdparty.searchcasenumber',['casenumbers' => $casenumbers]);
     }
 
     public function getReport(Request $request)
@@ -31,8 +28,8 @@ class ThirdPartyController extends Controller
         $selectedCaseNumber = $request->casenumbers;
         $id = Cases::where('case_number',$selectedCaseNumber)->pluck('id');
         $casereport=CaseReport::where('case_id',$id)->pluck('case_report');
-        return view('thirdparty.thirdpartyviewcasereport',compact('casereport'));
-
+        $casereport = $casereport[0];
+        return view('thirdparty.viewcasereports',compact('casereport'));
     }
 }
 

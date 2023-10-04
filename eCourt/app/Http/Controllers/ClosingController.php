@@ -3,32 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cases;
-use App\Models\Client;
-use App\Models\ClosingRequest;
 use Illuminate\Http\Request;
+use App\Models\Closingrequest;
+use Illuminate\Support\Carbon;
 
 class ClosingController extends Controller
 {
-
     public function update($requestid){
         $requestid=decrypt($requestid);
-
-       $request= ClosingRequest::find($requestid)->first();
-
-        $clientid=$request->client_id;
-        $client=Client::where('id',$clientid)->first();
-
-        $clientname=$client->name;
-
-
-
-        Cases::where('client_name',$clientname)->first()->update([
-         'case_status' => false
-
+        
+       $request= Closingrequest::find($requestid)->first();
+       
+        $casenumber=$request->case_number;
+        
+        $currentDateTime = Carbon::now();
+        $today= $currentDateTime->format('Y-m-d');
+        
+        
+        Cases::where('case_number',$casenumber)->update([
+         'case_status' => false,
+         'closing_date' => $today,
         ]);
 
-        ClosingRequest::find($requestid)->delete();
+        Closingrequest::find($requestid)->delete();
 
-        return redirect()->route('ClosingRequest');
+        return redirect()->route('closingrequests');
 }
 }

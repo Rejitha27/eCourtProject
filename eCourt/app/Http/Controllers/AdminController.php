@@ -3,66 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cases;
-use App\Models\CaseSchedule;
 use App\Models\Client;
 use App\Models\Lawyer;
-use App\Models\ClosingRequest;
+use App\Models\CaseSchedule;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
-
+use App\Models\Closingrequest;
 
 class AdminController extends Controller
 {
-   public function dashboard()
-   {
-        return view('Admin.AdminProfile');
-   }
+    public function dashboard()
+    {
+        return view('admin.adminprofile');
+    }
+    public function casestatus()
+    {
+        $activeCases=Cases::where('case_status',true)->paginate(3);
+        return view('admin.casestatus',compact('activeCases'));
+    }
+    public function caseschedule()
+    {
 
-   public function schedule()
-   {
-        $schedules=CaseSchedule::query()->paginate(3);
-        return view('admin.ScheduleTable',compact('schedules'));
-   }
+        $schedules=CaseSchedule::all();
 
-
-
-   public function rescheduleform($caseid)
+        // $details=Cases::with('caseschedules')->where('id',$schedules->case_id)->get();
+        // return $details;
+        return view('admin.caseschedule',compact('schedules'));
+    }
+    public function reschedule($caseid)
    {
     $case_id=decrypt($caseid);
     $reschedule = CaseSchedule::where('id',$case_id)->first();
-    return view('admin.Rescheduleform',compact('reschedule'));
+    $details=Cases::where('id',$reschedule->case_id)->first();
+    return view('admin.rescheduleform',compact('reschedule','details'));
    }
+    public function clientdetails()
+    {
+        $clients=Client::all();
+        return view('admin.clientdetails',compact('clients'));
+    }
+    public function lawyerdetails()
+    {
+        $lawyers=Lawyer::all();
+        return view('admin.lawyerdetails',compact('lawyers'));
+    }
+    public function crimerate()
+    {
+        return view('admin.crimerate');
+    }
+    public function closingrequests()
+    {
+        $requests=Closingrequest::where('request_status',true)->get();
 
+        return view('admin.closingrequests',compact('requests'));
+    }
 
-   public function closingrequest()
-   {
-    $requests=ClosingRequest::where('request_status',true)->get();
-
-
-    return view('admin.ClosingRequest',compact('requests'));
-   }
-   public function casestatus()
-   {
-    $activeCases=Cases::where('case_status',true)->paginate(3);
-    $closedCases=Cases::where('case_status',false)->paginate(3);
-    return view('admin.Casestatus',compact('activeCases','closedCases'));
-   }
-   public function documentview()
-   {
-    $activecases=Cases::where('case_status',true)->paginate(3);
-
-    return view('admin.DocumentView',compact('activecases'));
-   }
-   public function clientdetails()
-   {
-    $clients=Client::all();
-    return view('admin.ClientDetail',compact('clients'));
-   }
-   public function lawyerdetails()
-   {
-    $lawyers=Lawyer::all();
-    return view('admin.LawyerDetails',compact('lawyers'));
-   }
-
+    public function closedcases()
+    {
+        $closedCases=Cases::where('case_status',false)->paginate(3);
+        return view('admin.closedcases',compact('closedCases'));
+    }
 
 }

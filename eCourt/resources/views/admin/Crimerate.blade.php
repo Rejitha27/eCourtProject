@@ -1,12 +1,14 @@
-@extends('Layouts.admin_profile_theme')
+@extends('layouts.admin_profile_theme')
 @section('content')
 
+@include('admin.adminsidebar')
 
-
-<!DOCTYPE html>
+ <h3 style="color:black; padding-left:16%; text-decoration:underline; padding: left 60%;">Crime Rate</h3>
+ <div class="container">
+ <!DOCTYPE html>
 <html>
 <head>
-    <title>ApexCharts Example</title>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.26.1/dist/apexcharts.min.css">
 </head>
 <body>
@@ -55,6 +57,7 @@
 
 </body>
 </html>
+</div>
 
 
 

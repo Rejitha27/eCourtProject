@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Cases;
 use Illuminate\Http\Request;
 
@@ -11,10 +12,10 @@ class ChartController extends Controller
     {
  
    
-    $data = Cases::select('case_type', \DB::raw('count(*) as count'))
+    $data = Cases::select('case_type', DB::raw('count(*) as count'))
                ->groupBy('case_type')
                ->get();
                
-     return view('Admin.Crimerate',compact('data'));
+     return view('Admin.crimerate',compact('data'));
     }
 }

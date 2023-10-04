@@ -1,26 +1,37 @@
 @extends('layouts.lawyer_profile_theme')
 @section('content')
 
-<!--Lawyer Section Starts-->
-@foreach ($cases as $case)
-<div class="row"  style="padding-top: 2%; padding-bottom: 2%; border-style: solid; margin-top: 5%; margin-left: 1%; margin-right: 1%;">
-    <div class="col-lg-2" style="display: inline-block;">
-        <label>CaseNumber</label>
-        <h5 class="mb-4 px-4">{{$case->case_number}}</h5>
-    </div>
-    <div class="col-lg-3" style="display: inline-block;">
-        <h5 class="mb-2 px-4">{{$case->client_name}}</h5>
-        <p class="mb-3 px-4">{{$case->case_type}} Case</p>
-        <a href="" class="btn btn-primary mt-2">View Client Details</a>
-    </div>
-    <div class="col-lg-5" style="display: inline-block; border-style: ridge;">
-        <label>Case Description</label>
-        <p class="mb-4 px-4">{{$case->case_description}}</p>
-    </div>
-    <div class="col-lg-2" style="display: inline-block; padding-left: 2%;padding-top: 2%;">
-        <a href="{{route('view.uploaded.reports',encrypt($case->id))}}" method="get"  class="btn btn-info mt-2" >Case Report</a>
+<h4 style="color:black; padding-left:18%; text-decoration:underline; padding-top: 1%">Lawyer Dashboard</h4>
+
+<h5 style="color:rgb(10, 79, 44); padding-left:16%; text-decoration:underline; padding-top: 1%">Closed Cases</h5>
+ <div class="container">
+  <div class="card-body text-center" >
+        <table id="example2" class="table table-bordered table-hover" >
+            <thead>
+                <tr>
+                    <th>Case Number</th>
+                    <th>Case Type</th>
+                    <th>Client Name</th>
+                    <th>Filing Date</th>
+                    <th>Closing Date</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($cases as $case)
+                <tr>
+                    <td>{{$case->case_number}}</td>
+                    <td>{{$case->case_type}}</td>
+                    <td>{{$case->client_name}}</td>
+                    <td>{{\Carbon\Carbon::parse($case->filing_date)->format('d/m/Y')}}</td>
+                    <td>{{\Carbon\Carbon::parse($case->closing_date)->format('d/m/Y')}}</td>
+                    <td><a href="{{route('view.uploaded.reports',encrypt($case->id))}}" method="get"  class="btn btn-info mt-2" >Case Report</a></td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </div>
-@endforeach
-<!--Lawyer Section Ends-->
+
+@include('lawyer.lawyersidebar')            <!-- /.card -->
 @endsection

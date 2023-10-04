@@ -1,43 +1,56 @@
-@extends('Layouts.admin_profile_theme')
+@extends('layouts.admin_profile_theme')
 @section('content')
 
+@include('admin.adminsidebar')
+
+ <h3 style="color:black; padding-left:16%; text-decoration:underline; padding: left 60%;">Lawyer Details</h3>
+ <div class="container">
+
+  <div class="card-body text-center" >
+
+                <table id="example2" class="table table-bordered table-hover" style="margin:10%;">
+                  <!-- foreach loop -->
+                  <thead>
+                  <tr>
+                    <th>Sl No</th>
+                    <th>photo</th>
+
+                    <th>Lawyer Name</th>
+                    <th>Practice Area</th>
+                    <th>Qualification</th>
+                    <th>Experiences</th>
+                    <th>Bar Number</th>
+                    <th>Email</th>
+                    <th>PhoneNumber</th>
 
 
-@foreach($lawyers as $lawyer)
-<div class="row"  style="padding-top: 1%; padding-bottom: 1%; border-style: solid; margin-top: 2%; margin-left: 1%; margin-right: 1%;">
-
-
-        <div class="col-lg-2" style="display: inline-block;">
-        {{-- @if($lawyer->photo)
-                <img src="{{ asset('assets/img/' . $lawyer->photo)}}" width="100" height="100" alt="{{$lawyer->name}}">
+                  </tr>
+                  </thead>
+                  <tbody>
+                  @foreach($lawyers as $lawyer)
+                  <tr>
+                    <td>{{$loop->iteration}}</td>
+                    <td> @if($lawyer->profile_photo)
+                <img src="{{ asset('storage/eCourt/' . $lawyer->profile_photo)}}" width="100" height="100" alt="{{$lawyer->name}}">
                 @else
                 no photo
-                @endif --}}
-            <h5 class="mb-4 px-4">{{$lawyer->name}}</h5>
-            <p class="mb-4 px-4"> {{$lawyer->qualification}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">Practicearea</h5>
-            <p class="mb-4 px-4"> {{$lawyer->practice_area}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">Experiences</h5>
-            <p class="mb-4 px-4"> {{$lawyer->experiences}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4"> Email</h5>
-            <p class="mb-4 px-4"> {{$lawyer->email}}</p>
-        </div>
-        <div class="col-lg-2" style="display: inline-block;">
-            <h5 class="mb-4 px-4">contact</h5>
+                @endif </td>
+                    <td>{{$lawyer->name}}</td>
+                    <td>{{$lawyer->practice_area}}</td>
+                    <td>{{$lawyer->qualification}}</td>
+                    <td>{{$lawyer->experience}}</td>
+                    <td>{{$lawyer->bar_number}}</td>
+                    <td>{{$lawyer->email}}</td>
+                    <td>{{$lawyer->phone_number}}</td>
 
-            <p class="mb-4 px-4"> {{$lawyer->phone_number}}</p>
-        </div>
+                  </tr>
+                  @endforeach
 
-
-
-    </div>
-
-@endforeach
-
+                  <!-- endforeach -->
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+  </div>
+            <!-- /.card -->
 @endsection

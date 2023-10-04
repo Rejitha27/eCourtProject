@@ -11,13 +11,13 @@
                             <form action="{{ route('reschedule',encrypt($reschedule->id)) }}" method="post">
                                 @csrf
                                 <div class="form-group">
-                                    <input type="text" class="form-control border-0 p-4" value="{{ $reschedule->case_number }}" name="casenumber" placeholder="Caseid" required="required" />
+                                    <input type="text" class="form-control border-0 p-4" value="{{ $details->case_number }}" name="casenumber" placeholder="Caseid" required="required" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control border-0 p-4" value="{{ $reschedule->client_name}}" name="clientname"  placeholder="Clientid" required="required" />
+                                    <input type="text" class="form-control border-0 p-4" value="{{ $details->client_name}}" name="clientname"  placeholder="Clientid" required="required" />
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control border-0 p-4" value="{{ $reschedule->lawyer_name}}" name="lawyername"  placeholder="Lawyerid" required="required" />
+                                    <input type="text" class="form-control border-0 p-4" value="{{ $details->lawyer_name}}" name="lawyername"  placeholder="Lawyerid" required="required" />
                                 </div>
                                 <div class="form-group">
                                 <input type="text" class="form-control border-0 p-4" value="{{ $reschedule->judge}}" name="judge" placeholder="judge" required="required" />
@@ -25,7 +25,7 @@
                                 <div class="form-row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <div class="date" id="date" >
+                                            <div  id="date" >
                                                 <label>PreviousHearingDate</label>
                                                 <input type="date" class="form-control border-0 p-4" value="{{ $reschedule->hearing_date }}"  name="hearingdate" required="required" />
 
@@ -46,7 +46,7 @@
                                 <div class="form-row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <div class="date" id="date" data-target-input="nearest">
+                                            <div  id="date" data-target-input="nearest">
                                                 <label>NewHearingDate</label>
                                                 <input type="date" class="form-control border-0 p-4 datetimepicker-input" name="newhearingdate" placeholder="Select Date" data-target="#date" data-toggle="datetimepicker"/>
                                             </div>

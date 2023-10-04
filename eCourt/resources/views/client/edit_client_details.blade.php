@@ -1,59 +1,61 @@
 @extends('layouts.client_profile_theme')
 @section('content')
-<form action="{{route('store')}}" method="POST" enctype="multipart/form-data">
-<!-- <form action="{{route('client')}}" method="get" > -->
-    @csrf
-<div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-            <div class="team-item text-center bg-white rounded overflow-hidden pt-4">
-                <h5 class="mb-2 px-4">{{auth('client')->user()->name}}</h5>
-                <p class="mb-3 px-4">{{auth('client')->user()->email}}</p>
-                <div class="team-img position-relative">
-                    <img class="img-fluid" src="assets/img/team-7.png" alt="">
+
+<h4 style="color:black; padding-left:18%; text-decoration:underline; padding-top: 1%">Client Dashboard</h4>
+
+<div class="container mt-10">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Client Details</div>
+                <div class="card-body">
+                    <form action="{{route('update.client.profile')}}" method="post" enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="form-group row mb-3">
+                            <label for="email"  class="col-sm-4 col-form-label">Email</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" id="email" name="email" value="{{auth('client')->user()->email}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label for="phone_number" class="col-sm-4 col-form-label">Phone Number</label>
+                            <div class="col-sm-8">
+                                <input type="tel" class="form-control" id="phone_number" name="phone_number" value="{{auth('client')->user()->phone_number}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label for="address" class="col-sm-4 col-form-label">Address</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" id="address" name="address" rows="3">{{auth('client')->user()->address}}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-4 col-form-label" for="customFile">Upload profile photo</label>
+                            <div class="col-sm-8">
+                                <input type="file" class="form-control" id="customFile" name="profile_photo" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label class="col-sm-4 col-form-label" for="customFile">Upload id proof</label>
+                            <div class="col-sm-8">
+                                <input type="file" class="form-control" id="customFile" name="id_proof"/>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary " >SAVE</button>
+                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <div  class="col-sm-6">
-            <div class="row" style="padding-top: 25%;">
-                <div class="col-sm-4">
-                <div class="form-group">
-                        <label for="exampleFormControlInput1">Name: </label>
-                        <input type=text value="{{auth('client')->user()->name}}" name='name'>
-                        </div>
-                </div>
-                <div class="form-group">
-                            <label for="exampleFormControlInput1">Address:</label>
-                            <input type=text value="{{auth('client')->user()->Address}}" name='Address'>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Date of birth:</label>
-                            <input type=text value="{{auth('client')->user()->Dob}}" name='Dob'>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Gender:</label>
-                            <input type=text value="{{auth('client')->user()->Gender}}" name='Gender'>
-                            
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">email:</label>
-                            <input type=text value="{{auth('client')->user()->email}}" name='email'>
-                            
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Password:</label>
-                            <input type=text value="{{auth('client')->user()->Password}}" name='Password'>
-                           
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Phone:</label>
-                            <input type=text value="{{auth('client')->user()->Phone}}" name='Phone'>
-
-                        </div>
-                        <div class="form-group">                    
-                    <button type="submit" class="btn btn-primary mt-4">SAVE</button>
-                  </div>
-        </div>
+    </div>
 </div>
 
+
+@include('client.clientsidebar')
 @endsection

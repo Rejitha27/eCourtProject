@@ -12,27 +12,17 @@ class LawyerController extends Controller
 {
     public function dashboard()
     {
-        return view('lawyer.lawyer');
+        return view('lawyer.lawyerprofile');
     }
 
-    public function viewProfile($lawyerId)
+    public function editProfile()
     {
-        $id = decrypt($lawyerId);
-        $lawyer = Lawyer::where('id',$id)->first();
-        return view('lawyer.view_lawyer_profile',compact('lawyer'));
-    }
-
-    public function editProfile($lawyerId)
-    {
-        $id = decrypt($lawyerId);
-        $lawyer = Lawyer::where('id',$id)->first();
-        return view('lawyer.edit_lawyer_profile',compact('lawyer'));
+        return view('lawyer.edit_lawyer_profile');
     }
 
     public function updateProfile(Request $request)
     {
-        $id = $_POST['id'];
-        $lawyer_id = decrypt($id);
+        $lawyer_id = auth('lawyer')->user()->id;
 
         $lawyer = Lawyer::find($lawyer_id);
         $lawyer->qualification = $request->qualification;
@@ -60,6 +50,16 @@ class LawyerController extends Controller
         return redirect(route('lawyer.dashboard'));
     }
 
+    public function caseRequests()
+    {
+        $lawyer_name= auth('lawyer')->user()->name;
+        $requests = CaseRequest::where('active_status',false)->where('lawyer_name',$lawyer_name)->get();
+        if( $requests)
+            return view('lawyer.case_requests',compact('requests'));
+        else
+            return 'Currently No Case Requests are available';
+    }
+
     public function activeCases()
     {
         $lawyer_id = auth('lawyer')->user()->id;
@@ -80,27 +80,18 @@ class LawyerController extends Controller
             return 'Currently No Closed Cases are available';
     }
 
-    public function caseRequests()
-    {
-        $lawyer_name= auth('lawyer')->user()->name;
-        $requests = CaseRequest::where('request_status',true)->where('lawyer_name',$lawyer_name)->get();
-        if( $requests)
-            return view('lawyer.case_requests',compact('requests'));
-        else
-            return 'Currently No Case Requests are available';
-    }
-
     public function closingRequests()
     {
         $lawyer_id = auth('lawyer')->user()->id;
-        $closing_requests = ClosingRequest::where('lawyer_id',$lawyer_id)->where('request_status',false)->first();
+        $closing_requests = ClosingRequest::where('lawyer_id',$lawyer_id)->where('request_status',false)->get();
+
         if( $closing_requests)
             return view('lawyer.case_closing_requests',compact('closing_requests'));
         else
             return 'Currently No Closing Requests are available';
     }
 
-    public function caseSchedule()
+     public function caseSchedule()
     {
         //return view('admin.case_schedule');
         return 'Welcome to Case Schedule Page';

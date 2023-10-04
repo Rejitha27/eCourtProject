@@ -14,7 +14,7 @@ class AdminTableSeeder extends Seeder
     public function run(): void
     {
         Admin::create([
-            "profile_photo"=>'adminphoto.png',
+            "profile_photo"=>'adminphoto.jpg',
             "name"=>'admin',
             "email"=>'admin@gmail.com',
             "password"=>bcrypt('admin@123')
