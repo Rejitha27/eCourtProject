@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('caseschedules', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('case_id');
-            $table->foreign('case_id')->references('id')->on('cases')->onDelete('cascade');
+            $table->unsignedBigInteger('case_number');
             $table->string('judge');
             $table->date('hearing_date');
             $table->time('hearing_time');

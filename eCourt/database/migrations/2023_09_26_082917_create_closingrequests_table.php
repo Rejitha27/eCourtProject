@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('closing_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('case_id');
-            $table->unsignedBigInteger('client_id');
-            $table->foreign('case_id')->references('id')->on('cases')->onDelete('cascade');
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');;
+            $table->string('case_number');
+            $table->integer('client_id');
+            $table->integer('lawyer_id');
             $table->string('reason');
             $table->boolean('request_status')->nullable();
             $table->timestamps();

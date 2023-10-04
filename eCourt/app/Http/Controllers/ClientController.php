@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\client;
+//use App\Models\client;
+use App\Models\Cases;
+use App\Models\Client;
 use App\Models\Lawyer;
-use App\Models\Casefiling;
-use App\Models\Closerequest;
 use Illuminate\Http\Request;
+use App\Models\ClosingRequest;
 
 class ClientController extends Controller
 {
@@ -15,21 +16,28 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function client()
+    {
+        return view('client.client');
+    }
 
     public function dashboard()
     {
         return view('client.client');
     }
-
+    public function index()
+    {
+        return view('home');
+    }
     public function clientProfile()
     {
         return view('clientProfile');
     }
-    // public function filecase()
-    // {
-    //     $lawyers=Lawyer::all();
-    //     return view('client.fileCase',compact('lawyers'));
-    // }
+    public function filecase()
+    {
+        $lawyers=Lawyer::all();
+        return view('client.fileCase',compact('lawyers'));
+    }
     public function selectlawyer()
     {
         return view('client.selectLawyer');
@@ -40,50 +48,36 @@ class ClientController extends Controller
     }
     public function casestatus()
     {
-        return view('client.casestatus');
+        $name = auth('client')->user()->name;
+        $client = Cases::where('client_name', $name)->first();
+        if ($client) {
+        return view('client.casestatus', compact('client'));
+        }
     }
-    public function closerequest()
+
+    public function closerequest($lawyerName)
     {
-        return view('client.closerequest');
+        $name = auth('client')->user()->name;
+        $client = Cases::where('client_name', $name)->first();
+        if ($client) {
+        return view('client.closerequest', compact('client','lawyerName'));
+        }
+
     }
-    // public function create(Request $request)
-    // {
-
-    //     $case=new Casefiling();
-    //     $case->filling_date=$request->dateoffiling;
-    //     $case->client_name=$request->cname;
-    //     $case->case_type=$request->ctype;
-    //     $case->lawyer_name=$request->lawyername;
-    //     $case->case_description=$request->desc;
-    //     $case->case_respondent_name=$request->rname;
-    //     $case->case_respondent_address=$request->raddress;
-    //     $case->case_respondent_phone=$request->rphone;
-    //     //$case->closing_date=$request->closedate;
-
-    //     if ( $request->hasFile('docs')){
-    //         $image=$request->file('docs');
-    //         $imageName= $request->cname. '.' .$image->getClientOriginalExtension();
-    //         $image->storeAs('public/docu' ,$imageName);
-    //         $case->docs = $imageName;
-    //     }
-    //     $case->save();
-
-    //     // return redirect()->route('/')->with('message','Success! User added success');
-
-    //     echo "Your case registered successfully";
-    //     //return redirect(route('client.client'));
-    //     return view('client.client');
-    // }
 
     public function close(Request $request)
     {
-        $case=new Closerequest();
-        $case->client_name=auth('client')->user()->name;
-        $case->reason=$request->reason;
+        $client_id = auth('client')->user()->id;
+        $case = Cases::where('case_number',$request->case_number)->first();
+        $lawyer_id = $case->lawyer_id;
 
-        $case->save();
-        echo "Your case case close request registered successfully";
-        //return redirect(route('client.client'));
+        ClosingRequest::create([
+            "case_number"=> $request->case_number,
+            "client_id"=> $client_id,
+            "lawyer_id"=> $lawyer_id,
+            "reason"=> $request->reason,
+            "request_status"=>false
+        ]);
         return view('client.client');
     }
 
@@ -93,6 +87,7 @@ class ClientController extends Controller
     public function viewProfile()
     {
         $request=Client::all();
+       // return $request;
         return view('client.view_client_details',compact('request'));
         //return view('client.view_client_details');
     }

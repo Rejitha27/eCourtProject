@@ -10,28 +10,24 @@ class LogoutController extends Controller
     public function adminLogout()
     {
         auth()->guard('admin')->logout();
-        return redirect(route('admin.login'));
-        exit();
+        return redirect(route('/'));
     }
 
     public function clientLogout()
     {
         auth()->guard('client')->logout();
-        return redirect(route('client.login'));
-        exit();
+        return redirect(route('/'));
     }
 
     public function lawyerLogout()
     {
         auth()->guard('lawyer')->logout();
-        return redirect(route('lawyer.login'));
-        exit();
+        return redirect(route('/'));
     }
 
     public function thirdpartyLogout()
     {
         auth()->guard('thirdparty')->logout();
-        return redirect(route('thirdparty.login'));
-        exit();
+        return redirect(route('/'));
     }
 }

@@ -8,15 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ClosingRequest extends Model
 {
     use HasFactory;
+    protected $table='closing_requests';
     protected $guarded = [];
-
-    public function case()
-    {
-        return $this -> hasOne(Cases::class,'id','case_id');
-    }
-    public function client()
-    {
-        return $this -> hasOne(Client::class,'id','client_id');
-    }
+    public $timestamps = false;
 
 }

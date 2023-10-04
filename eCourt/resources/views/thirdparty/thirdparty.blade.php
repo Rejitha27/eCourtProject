@@ -17,9 +17,9 @@
                         <div class="col-md-6" style="display: inline-block;">
                             <label for="case_type">Select Case Type:</label>
                                 <select name="case_type" id="case_type" class="form-control">
-                                    <option value="criminal case">Criminal Case</option>
-                                        <option value="civil case">Civil Case</option>
-                                            <option value="family case">Family Case</option>
+                                    <option value="Criminal">Criminal Case</option>
+                                        <option value="Civil">Civil Case</option>
+                                            <option value="Family">Family Case</option>
 
                                 </select>
                         </div>

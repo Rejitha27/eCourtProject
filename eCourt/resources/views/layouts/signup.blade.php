@@ -75,18 +75,7 @@
                         <a href="" class="nav-item nav-link">Home</a>
                         <a href="" class="nav-item nav-link">About</a>
                         <a href="#" class="nav-item nav-link">Lawyers</a>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                 Login
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{route('admin.login')}}">Clerk</a>
-                                <a class="dropdown-item" href="{{route('lawyer.login')}}">Lawyer</a>
-                                <a class="dropdown-item" href="{{route('client.login')}}">Client</a>
-                                <a class="dropdown-item" href="{{route('thirdparty.login')}}">Third Party</a>
 
-                            </div>
-                        </li>
                         <a href="" class="nav-item nav-link">Contact</a>
                     </div>
                 </div>

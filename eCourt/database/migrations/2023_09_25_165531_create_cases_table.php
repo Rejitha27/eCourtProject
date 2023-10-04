@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('cases', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('client_id');
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreign('client_id')->references("id")->on("clients");
+            $table->unsignedBigInteger('lawyer_id');
+            $table->foreign('lawyer_id')->references("id")->on("lawyers");
             $table->string('case_type');
             $table->string('case_number')->nullable();
             $table->date('filing_date');

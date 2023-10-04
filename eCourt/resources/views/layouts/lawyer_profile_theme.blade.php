@@ -73,11 +73,11 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="index.html" class="nav-item nav-link">Home</a>
-                    <a href="about.html" class="nav-item nav-link">About</a>
-                    <a href="lawyer.html" class="nav-item nav-link">Lawyers</a>
-                        </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="{{route('/')}}" class="nav-item nav-link">Home</a>
+                        <a href="{{route('about')}}" class="nav-item nav-link">About</a>
+                        <a href="{{route('lawyer.list')}}" class="nav-item nav-link">Lawyers</a>
+                    </div>
+                    <a href="{{route('contact')}}" class="nav-item nav-link">Contact</a>
                     </div>
                     <a href="{{route('lawyer.logout')}}" class="btn btn-primary mr-3 d-none d-lg-block">Log Out</a>
                 </div>

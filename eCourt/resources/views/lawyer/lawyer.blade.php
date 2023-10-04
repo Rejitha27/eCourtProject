@@ -1,8 +1,3 @@
-<?php
-    header("Cache-Control: no-cache, no-store, must-revalidate");
-    header("Pragma: no-cache");
-    header("Expires: 0");
-?>
 
 @extends('layouts.lawyer_profile_theme')
 @section('content')
@@ -28,20 +23,20 @@
                     <div class="icon-box bg-secondary text-primary mt-2 mb-4">
                         <i class="fa fa-2x fa-landmark"></i>
                     </div>
-                    <h5 class="mb-4 px-4"><a href="{{route('lawyer.active.cases',encrypt(auth('lawyer')->user()->name))}}" style="color: #37373F;">Active Cases</a> </h5>
+                    <h5 class="mb-4 px-4"><a href="{{route('lawyer.active.cases')}}" style="color: #37373F;">Active Cases</a> </h5>
 
                 </div>
                 <div class="col-sm-4">
                     <div class="icon-box bg-secondary text-primary mt-2 mb-4">
                         <i class="fa fa-2x fa-users"></i>
                     </div>
-                    <h5 class="mb-4 px-4"><a href="{{route('lawyer.closed.cases',encrypt(auth('lawyer')->user()->name))}}" style="color: #37373F; text-align: center; ">Closed Cases</a></h5>
+                    <h5 class="mb-4 px-4"><a href="{{route('lawyer.closed.cases')}}" style="color: #37373F; text-align: center; ">Closed Cases</a></h5>
                 </div>
                 <div class="col-sm-4">
                     <div class="icon-box bg-secondary text-primary mt-2 mb-4">
                         <i class="fa fa-2x fa-hand-holding-usd"></i>
                     </div>
-                    <h5 class="mb-4 px-4"><a href="{{route('lawyer.case.requests',encrypt(auth('lawyer')->user()->name))}}" style="color: #37373F;">Case Requests</a></h5>
+                    <h5 class="mb-4 px-4"><a href="{{route('lawyer.case.requests')}}" style="color: #37373F;">Case Requests</a></h5>
                 </div>
             </div>
             <div class="row">

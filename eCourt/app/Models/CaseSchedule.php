@@ -9,9 +9,5 @@ class CaseSchedule extends Model
 {
     use HasFactory;
     protected $guarded = [];
-
-    public function case()
-    {
-        return $this -> hasOne(Cases::class,'id','case_id');
-    }
+    protected $table = 'caseschedules';
 }

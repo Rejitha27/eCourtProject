@@ -12,6 +12,12 @@ class Cases extends Model
 
     public function client()
     {
-        return $this -> hasOne(Client::class,'id','client_id');
+        return $this->belongsTo(Client::class);
     }
+
+    public function lawyer()
+    {
+        return $this->belongsTo(Lawyer::class);
+    }
+
 }

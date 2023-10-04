@@ -19,11 +19,8 @@ class ThirdPartyController extends Controller
 
     public function search(Request $request)
     {
-
         $selectedCaseType = $request->case_type;
-
         $casenumbers = Cases::where('case_type',$selectedCaseType)->pluck('case_number');
-
         return view('thirdparty.thirdpartysearchcasenumber',['casenumbers' => $casenumbers]);
 
 
@@ -31,15 +28,10 @@ class ThirdPartyController extends Controller
 
     public function getReport(Request $request)
     {
-
         $selectedCaseNumber = $request->casenumbers;
-
         $id = Cases::where('case_number',$selectedCaseNumber)->pluck('id');
-
         $casereport=CaseReport::where('case_id',$id)->pluck('case_report');
-
         return view('thirdparty.thirdpartyviewcasereport',compact('casereport'));
-
 
     }
 }

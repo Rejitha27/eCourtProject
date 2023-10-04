@@ -1,4 +1,4 @@
-@extends('layouts.admin_profile_theme')
+@extends('Layouts.admin_profile_theme')
 @section('content')
 
 
@@ -8,11 +8,11 @@
 
 
         <div class="col-lg-2" style="display: inline-block;">
-        @if($lawyer->photo)
+        {{-- @if($lawyer->photo)
                 <img src="{{ asset('assets/img/' . $lawyer->photo)}}" width="100" height="100" alt="{{$lawyer->name}}">
                 @else
                 no photo
-                @endif
+                @endif --}}
             <h5 class="mb-4 px-4">{{$lawyer->name}}</h5>
             <p class="mb-4 px-4"> {{$lawyer->qualification}}</p>
         </div>

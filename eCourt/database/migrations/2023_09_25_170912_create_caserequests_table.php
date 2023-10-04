@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('caserequests', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('client_id');
             $table->date('filling_date')->nullable();
             $table->string('petitioner_name');
             $table->string('case_type');
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->string('respondent_address');
             $table->string('respondent_phonenumber');
             $table->string('case_document')->nullable();
+            $table->boolean('request_status');
             $table->timestamps();
         });
     }

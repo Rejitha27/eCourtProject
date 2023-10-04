@@ -34,14 +34,6 @@ class LawyerController extends Controller
         $id = $_POST['id'];
         $lawyer_id = decrypt($id);
 
-        // $request->validate([
-        //     'practice_area' => 'required|string',
-        //     'experience' => 'required|numeric',
-        //     'phone_number' => 'required|digits:10',
-        //     //'profile_photo'=>'required',
-        //     'id_proof'=>'required'
-        // ]);
-
         $lawyer = Lawyer::find($lawyer_id);
         $lawyer->qualification = $request->qualification;
         $lawyer->practice_area = $request->practice_area;
@@ -49,13 +41,13 @@ class LawyerController extends Controller
         $lawyer->email = $request->email;
         $lawyer->phone_number = $request->phone_number;
         $lawyer->address = $request->address;
-        // if ($request->hasFile('profile_photo')) {
+        if ($request->hasFile('profile_photo')) {
 
-        //     $profile_photo = $request->file('profile_photo');
-        //     $fileName = 'Lpf'.$lawyer_id . '_' . $profile_photo->getClientOriginalName();
-        //     $profile_photo->storeAs('public/ecourt', $fileName);
-        //     $lawyer->profile_photo = $fileName;
-        // }
+            $profile_photo = $request->file('profile_photo');
+            $fileName = 'Lpf'.$lawyer_id . '_' . $profile_photo->getClientOriginalName();
+            $profile_photo->storeAs('public/ecourt', $fileName);
+            $lawyer->profile_photo = $fileName;
+        }
         if ($request->hasFile('id_proof')) {
 
             $id_proof = $request->file('id_proof');
@@ -68,32 +60,44 @@ class LawyerController extends Controller
         return redirect(route('lawyer.dashboard'));
     }
 
-    public function activeCases($lawyerName)
+    public function activeCases()
     {
-        $lawyer_name = decrypt($lawyerName);
-        $cases = Cases::where('case_status',true)->where('lawyer_name',$lawyer_name)->paginate(5);
-        return view('lawyer.active_cases',compact('cases'));
+        $lawyer_id = auth('lawyer')->user()->id;
+        $cases = Cases::with('client','lawyer')->where('case_status',true)->where('lawyer_id',$lawyer_id)->get();
+        if($cases)
+            return view('lawyer.active_cases',compact('cases'));
+        else
+            return 'Currently No Active Cases are available';
     }
 
-    public function closedCases($lawyerName)
+    public function closedCases()
     {
-        $lawyer_name = decrypt($lawyerName);
-        $cases = Cases::where('case_status',false)->where('lawyer_name',$lawyer_name)->paginate(5);
-        return view('lawyer.closed_cases',compact('cases'));
+        $lawyer_id = auth('lawyer')->user()->id;
+        $cases = Cases::where('case_status',false)->where('lawyer_id',$lawyer_id)->paginate(5);
+        if($cases)
+            return view('lawyer.closed_cases',compact('cases'));
+        else
+            return 'Currently No Closed Cases are available';
     }
 
-    public function caseRequests($lawyerName)
+    public function caseRequests()
     {
-        $lawyer_name = decrypt($lawyerName);
-        $requests = CaseRequest::where('lawyer_name',$lawyer_name)->paginate(5);
-        return view('lawyer.case_requests',compact('requests'));
+        $lawyer_name= auth('lawyer')->user()->name;
+        $requests = CaseRequest::where('request_status',true)->where('lawyer_name',$lawyer_name)->get();
+        if( $requests)
+            return view('lawyer.case_requests',compact('requests'));
+        else
+            return 'Currently No Case Requests are available';
     }
 
     public function closingRequests()
     {
-        $closing_requests = ClosingRequest::all();
-
-        return view('lawyer.case_closing_requests');
+        $lawyer_id = auth('lawyer')->user()->id;
+        $closing_requests = ClosingRequest::where('lawyer_id',$lawyer_id)->where('request_status',false)->first();
+        if( $closing_requests)
+            return view('lawyer.case_closing_requests',compact('closing_requests'));
+        else
+            return 'Currently No Closing Requests are available';
     }
 
     public function caseSchedule()

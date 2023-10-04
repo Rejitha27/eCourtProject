@@ -1,4 +1,4 @@
-@extends('layouts.admin_profile_theme')
+@extends('Layouts.admin_profile_theme')
 @section('content')
 
 <!--admin Section Starts-->

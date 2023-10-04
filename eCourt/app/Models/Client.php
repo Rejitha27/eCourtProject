@@ -10,4 +10,8 @@ class Client extends Authenticatable
     use HasFactory;
     protected $guarded = [];
 
+    public function case()
+    {
+        return $this->hasMany(Cases::class);
+    }
 }

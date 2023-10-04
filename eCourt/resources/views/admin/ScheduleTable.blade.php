@@ -1,4 +1,5 @@
-@extends('layouts.admin_profile_theme')
+use pagination;
+@extends('Layouts.admin_profile_theme')
 @section('content')
 
 @if(session()->has('message'))<div class="alert alert-success" id="alert-success"> {{ session()->get('message') }}</div> @endif
@@ -9,8 +10,19 @@
               <div class="card-header">
                 <h3 class="card-title">Scheduled cases </h3>
                 <div class="float-right">
-                  <!-- <form method="post" action="{{ route('scheduleform')}}"> @csrf -->
-               <a class="btn btn-primary" href="{{ route('scheduleform')}}">Add New Schedule</a>
+
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            new schedules
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ route('crimescheduleform')}}">criminal</a>
+                        <a class="dropdown-item" href="{{ route('civilscheduleform')}}">civil</a>
+                        <a class="dropdown-item" href="{{ route('familyscheduleform')}}">family</a>
+
+                        </div>
+
+
+
               </div>
 
               </div>
@@ -29,16 +41,16 @@
                       <th>Action</th>
                     </tr>
                   </thead>
-                  @foreach($schedule as $schedule)
+                  @foreach($schedules as $schedule)
                   <tbody>
                     <tr>
-                      <td>{{ $loop->iteration }}</td>
+                      <td>{{ ($schedules->currentPage() - 1) * $schedules->perPage() + $loop->index + 1}}</td>
                       <td>{{ $schedule->case_number }}</td>
                       <td>{{ $schedule->client_name}}</td>
                       <td>{{ $schedule->lawyer_name}}</td>
                       <td>{{ $schedule->judge }}</td>
-                      <td>{{ $schedule->hearing_date }}</td>
-                      <td>{{ $schedule->hearing_time }}</td>
+                      <td>{{ $schedule->reschedule_hearing_date }}</td>
+                      <td>{{ $schedule->reschedule_hearing_time }}</td>
                       <td>
                       <a href="{{ route('rescheduleform',encrypt($schedule->id)) }}" class="btn btn-primary">Reschedule</a>
                       </td>
@@ -48,7 +60,14 @@
                   @endforeach
                 </table>
                  </div>
+</div>
 
+<div class="card-footer clearfix">
+
+                {{$schedules->links('pagination::bootstrap-4')}}
+
+
+              </div>
 
 
 

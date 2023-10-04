@@ -12,11 +12,14 @@ class CaseController extends Controller
     public function acceptCaseRequest($requestId)
     {
         $request_id = decrypt($requestId);
+        $lawyer_id = auth('lawyer')->user()->id;
         $case_request = CaseRequest::where('id',$request_id )->first();
 
         $case = new Cases();
+        $case->client_id = $case_request->client_id;
+        $case->lawyer_id = $lawyer_id;
         $case->case_type = $case_request->case_type;
-        $case->filing_date = $case_request->date_of_filling_date;
+        $case->filing_date = $case_request->filling_date;
         $case->client_name= $case_request->petitioner_name;
         $case->lawyer_name = $case_request->lawyer_name;
         $case->case_description = $case_request->case_description;
@@ -31,7 +34,10 @@ class CaseController extends Controller
         $case->case_document = $case_request->case_document;
         $case->save();
 
-        $case_request = CaseRequest::find($request_id)->delete();
+        $case_request = CaseRequest::find($request_id)->update([
+            'request_status' => false,
+        ]);
+
         return redirect(route('lawyer.dashboard'));
 
     }
@@ -39,13 +45,8 @@ class CaseController extends Controller
     public function rejectCaseRequest($requestId)
     {
         $request_id = decrypt($requestId);
-        //return $request_id;
         $case_request = CaseRequest::find($request_id)->delete();
         return redirect(route('lawyer.dashboard'));
-    }
-    public function contactClient()
-    {
-        return'Contact feature currently not available ';
     }
 
     public function uploadCaseReport(Request $request)

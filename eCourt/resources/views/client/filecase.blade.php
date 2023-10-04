@@ -72,6 +72,7 @@
                         <input type="file" id="docs" name="case_document"  class="fileupload">
                       </div>
                     </div>
+                    <input type="hidden" name="client_id" value="{{auth('client')->user()->id}}"/>
                     <button type="submit" class="btn btn-primary mt-4">SUBMIT</button>
                </div>
             </div>
